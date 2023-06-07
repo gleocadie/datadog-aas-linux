@@ -171,7 +171,7 @@ setUpJavaEnv() {
     DD_JAVAAGENT="-javaagent:$DD_DIR/$DD_JAVA_TRACER_FILE"
 
     if [ "$WEBSITE_STACK" == "TOMCAT" ]; then
-        echo "CATALINA_OPTS='$CATALINA_OPTS $DD_JAVAAGENT'" >> /usr/local/tomcat/bin/setenv.sh
+        export JAVA_OPTS="$JAVA_OPTS $DD_JAVAAGENT"
     else
         DD_START_APP=$(echo "${DD_START_APP//-jar/$DD_JAVAAGENT -jar}")
     fi
