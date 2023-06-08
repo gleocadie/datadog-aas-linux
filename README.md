@@ -6,7 +6,7 @@ _Note: Currently Java, NODE, .NET, PHP and Python are supported._
 - `DD_API_KEY` is your Datadog API key
 - `DD_SITE` is the Datadog site [parameter](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site) (defaults to datadoghq.com)
 - `DD_SERVICE` is the service name used for this program. Defaults to the name field value in package.json.
-- `DD_START_APP` is the command used to start your application. For example, `node ./bin/www`
+- `DD_START_APP` is the command used to start your application. For example, `node ./bin/www` (Unnecessary for Tomcat applications)
 
 ![](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/v1uPLYrR/e0f4e84d-b9bf-4f90-838c-f1771cc9d95d.jpg?v=54a84161784fcf4f1df606fbf7195a65)
 
@@ -19,15 +19,11 @@ Add the following to the startup command box
 ![](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/8LuqpR7e/6a9bf63d-5169-49d0-a68a-20e6e3009d47.jpg?v=7704a16bc91a6a57caf8befd84204415)
 
 ##### Java
+
 Download the `datadog_wrapper` file from the releases and upload it to your application with the [Azure CLI command](https://learn.microsoft.com/en-us/azure/app-service/deploy-zip?tabs=cli#deploy-a-startup-script):
 
       az webapp deploy --resource-group <group-name> --name <app-name> --src-path <path-to-datadog-wrapper> --type=startup
 
-Alternatively you can upload this script as part of your application and set the  startup command in general settings as its location (e.g. `/home/site/wwwroot/datadog_wrapper`)
-
-If you are already using a startup script, add the following curl command to the end of your script:
-
-     curl -s https://raw.githubusercontent.com/DataDog/datadog-aas-linux/v1.1.0/datadog_wrapper | bash
 ### Viewing traces
 
 1. Azure will restart the application when new Application Settings are saved. However, a restart may be required for the startup command to be recognized by App Services if it is added and saved at a different time.

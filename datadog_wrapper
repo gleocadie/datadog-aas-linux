@@ -31,6 +31,8 @@ main() {
             setupPHPEnv;;
         "PYTHON")
             setUpPyEnv;;
+        "TOMCAT")
+            setUpJavaEnv;;
         "*")
             echo "Unsupported runtime. Exiting Datadog startup"
             return;;
@@ -74,7 +76,7 @@ setEnvVars() {
 }
 
 getBinaries() {
-    if [ "$WEBSITE_STACK" == "PHP" ] || [ "$WEBSITE_STACK" == "JAVA" ]; then
+    if [ "$WEBSITE_STACK" == "PHP" ] || [ "$WEBSITE_STACK" == "JAVA" ] || [ "$WEBSITE_STACK" == "TOMCAT" ]; then
         apt-get update && apt-get install -y unzip
     fi
 
@@ -167,7 +169,12 @@ setUpJavaEnv() {
 
     echo "Adding the JAVA tracer to the startup command"
     DD_JAVAAGENT="-javaagent:$DD_DIR/$DD_JAVA_TRACER_FILE"
-    DD_START_APP=$(echo "${DD_START_APP//-jar/$DD_JAVAAGENT -jar}")
+
+    if [ "$WEBSITE_STACK" == "TOMCAT" ]; then
+        export JAVA_OPTS="$JAVA_OPTS $DD_JAVAAGENT"
+    else
+        DD_START_APP=$(echo "${DD_START_APP//-jar/$DD_JAVAAGENT -jar}")
+    fi
 }
 
 setupPHPEnv() {
