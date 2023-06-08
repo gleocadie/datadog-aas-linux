@@ -24,8 +24,6 @@ Download the `datadog_wrapper` file from the releases and upload it to your appl
 
       az webapp deploy --resource-group <group-name> --name <app-name> --src-path <path-to-datadog-wrapper> --type=startup
 
-Alternatively you can upload this script as part of your application and set the  startup command in general settings as its location (e.g. `/home/site/wwwroot/datadog_wrapper`)
-
 ### Viewing traces
 
 1. Azure will restart the application when new Application Settings are saved. However, a restart may be required for the startup command to be recognized by App Services if it is added and saved at a different time.
