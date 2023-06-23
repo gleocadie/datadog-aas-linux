@@ -14,6 +14,9 @@ main() {
     echo "Creating and switching to the Datadog directory at $DD_DIR"
     mkdir -p "$DD_DIR" && cd "$DD_DIR" || return
 
+    echo "Adding Runtime specific dependencies"
+    getRuntimeDependencies
+
     echo "Getting the Datadog binaries"
     getBinaries
 
@@ -54,7 +57,7 @@ setEnvVars() {
     fi
 
     if [ -z "$DD_AAS_LINUX_VERSION" ]; then
-        DD_AAS_LINUX_VERSION="v1.2.0"
+        DD_AAS_LINUX_VERSION="v1.3.0"
     fi
 
     if [ -z "$DD_BINARY_DIR" ]; then
@@ -75,11 +78,22 @@ setEnvVars() {
 
 }
 
-getBinaries() {
-    if [ "$WEBSITE_STACK" == "PHP" ] || [ "$WEBSITE_STACK" == "JAVA" ] || [ "$WEBSITE_STACK" == "TOMCAT" ]; then
+getRuntimeDependencies() {
+    if [ "$WEBSITE_STACK" == "TOMCAT" ]; then
+        DD_TOMCAT_VERSION=$(echo "$TOMCAT_VERSION" | awk -F. '{print $1}')
+    fi
+
+    if [ "$WEBSITE_STACK" == "PHP" ] || [ "$WEBSITE_STACK" == "JAVA" ] || [ "$DD_TOMCAT_VERSION" == "10" ]; then
         apt-get update && apt-get install -y unzip
     fi
 
+    if [ "$DD_TOMCAT_VERSION" == "9" ]; then
+        apk add curl
+        apk add libc6-compat
+    fi
+}
+
+getBinaries() {
     #Check if we have already installed this version
     if [ ! -d "$DD_BINARY_DIR" ]; then
 
