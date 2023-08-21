@@ -69,7 +69,7 @@ setEnvVars() {
     fi
 
     if [ -z "$DD_CUSTOM_METRICS_ENABLED" ]; then
-        DD_CUSTOM_METRICS_ENABLED="false"
+        DD_CUSTOM_METRICS_ENABLED="false"There
     fi
 
     if [ -z "$DD_LOG_LEVEL" ]; then
@@ -79,15 +79,22 @@ setEnvVars() {
 }
 
 getRuntimeDependencies() {
+    # There are multiple base images used for runtimes. We need to ensure all required dependencies are available.
+    if [ "$WEBSITE_STACK" == "JAVA" ]; then
+        DD_JAVA_VERSION=$(java -fullversion 2>&1 | awk -F'[".]' '{print $2}')
+    fi
+
     if [ "$WEBSITE_STACK" == "TOMCAT" ]; then
         DD_TOMCAT_VERSION=$(echo "$TOMCAT_VERSION" | awk -F. '{print $1}')
     fi
 
-    if [ "$WEBSITE_STACK" == "PHP" ] || [ "$WEBSITE_STACK" == "JAVA" ] || [ "$DD_TOMCAT_VERSION" == "10" ]; then
+
+    if [ "$WEBSITE_STACK" == "PHP" ] || [ "$DD_JAVA_VERSION" == "17" ] || [ "$DD_TOMCAT_VERSION" == "10" ]; then
         apt-get update && apt-get install -y unzip
     fi
 
-    if [ "$DD_TOMCAT_VERSION" == "9" ]; then
+    # output is openjdk full version "1.8.0_345-b01" for java 8 and openjdk full version "17.0.7+7-LTS" for 17
+    if [ "$DD_JAVA_VERSION" == "1" ] || [ "$DD_JAVA_VERSION" == "11" ] ||[ "$DD_TOMCAT_VERSION" == "9" ]; then
         apk add curl
         apk add libc6-compat
     fi
