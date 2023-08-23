@@ -69,7 +69,7 @@ setEnvVars() {
     fi
 
     if [ -z "$DD_CUSTOM_METRICS_ENABLED" ]; then
-        DD_CUSTOM_METRICS_ENABLED="false"There
+        DD_CUSTOM_METRICS_ENABLED="false"
     fi
 
     if [ -z "$DD_LOG_LEVEL" ]; then
