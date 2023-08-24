@@ -57,7 +57,7 @@ setEnvVars() {
     fi
 
     if [ -z "$DD_AAS_LINUX_VERSION" ]; then
-        DD_AAS_LINUX_VERSION="v1.4.0"
+        DD_AAS_LINUX_VERSION="v1.3.0"
     fi
 
     if [ -z "$DD_BINARY_DIR" ]; then
