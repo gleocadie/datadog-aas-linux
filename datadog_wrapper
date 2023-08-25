@@ -5,7 +5,12 @@ main() {
     export DD_AZURE_APP_SERVICES=1
     export DD_HOSTNAME="none"
 
-    CURRENT_DIR=$(pwd)
+    if [ -z "${DD_CHDIR}" ]; then 
+        CURRENT_DIR=$(pwd)
+    else 
+        CURRENT_DIR="$(pwd)/$DD_CHDIR"
+    fi
+
     echo "Set application directory as $CURRENT_DIR"
 
     echo "Setting Datadog environment variables"
