@@ -25,7 +25,7 @@ main() {
     echo "Getting the Datadog binaries"
     getBinaries
 
-    echo "Starting the appropriate Datadog bianries"
+    echo "Starting the appropriate Datadog binaries"
     startBinaries
 
     case "$WEBSITE_STACK" in
