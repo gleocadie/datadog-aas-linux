@@ -166,7 +166,7 @@ setUpDotnetEnv() {
 
     # If the tracer directory doesn't exist, then we can download the tracer.
     if [ ! -d "$DD_DOTNET_TRACER_DIR" ]; then
-        mkdir -p "{$DD_DOTNET_TRACER_DIR}" && cd "${DD_DOTNET_TRACER_DIR}" || return
+        mkdir -p "${DD_DOTNET_TRACER_DIR}" && cd "${DD_DOTNET_TRACER_DIR}" || return
 
         DD_DOTNET_TRACER_FILE=datadog-dotnet-apm-${DD_DOTNET_TRACER_VERSION}.tar.gz
         DD_DOTNET_TRACER_URL=https://github.com/DataDog/dd-trace-dotnet/releases/download/v${DD_DOTNET_TRACER_VERSION}/${DD_DOTNET_TRACER_FILE}
@@ -174,7 +174,7 @@ setUpDotnetEnv() {
         echo "Installing .NET tracer from ${DD_DOTNET_TRACER_URL}"
         if curl -L --fail "${DD_DOTNET_TRACER_URL}" -o "${DD_DOTNET_TRACER_FILE}"; then
             tar -xzf "${DD_DOTNET_TRACER_FILE}" || return
-        else
+        elsel
             echo "Downloading the tracer was unsuccessful"
             return
         fi
