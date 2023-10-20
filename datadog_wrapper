@@ -162,7 +162,7 @@ setUpDotnetEnv() {
     fi
 
     # Set a tracer directory to avoid issues with unarchiving
-    DD_DOTNET_TRACER_DIR="${DD_DIR}"/dd-trace-dotnet-v"${DD_DOTNET_TRACER_VERSION}"
+    DD_DOTNET_TRACER_DIR="${DD_DIR}/dd-trace-dotnet-v${DD_DOTNET_TRACER_VERSION}"
 
     # If the tracer directory doesn't exist, then we can download the tracer.
     if [ ! -d "$DD_DOTNET_TRACER_DIR" ]; then
